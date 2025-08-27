@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Keyboard Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            min-width: 450px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e8f4fd;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            background: #f8fcff;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4facfe;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        button {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .word-list {
+            background: linear-gradient(135deg, #f8fcff 0%, #e8f4fd 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            max-height: 220px;
+            overflow-y: auto;
+            border: 1px solid #e1f5fe;
+        }
+
+        .word-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-left: 4px solid #4facfe;
+            transition: all 0.2s ease;
+        }
+
+        .word-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+
+        .word-text {
+            font-size: 16px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .check-mark {
+            color: #27ae60;
+            font-size: 22px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(39, 174, 96, 0.3);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 12px;
+            background: #fdf2f2;
+            border: 1px solid #fadbd8;
+            border-radius: 8px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(149, 165, 166, 0.3);
+        }
+
+        .back-btn:hover {
+            box-shadow: 0 8px 25px rgba(149, 165, 166, 0.4);
+        }
+
+        .typing-area {
+            margin: 25px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fcff 0%, #ffffff 100%);
+            border-radius: 15px;
+            border: 1px solid #e1f5fe;
+        }
+
+        /* Custom scrollbar */
+        .word-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .word-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .word-list::-webkit-scrollbar-thumb {
+            background: #4facfe;
+            border-radius: 10px;
+        }
+
+        .word-list::-webkit-scrollbar-thumb:hover {
+            background: #00f2fe;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page 1: Add Words -->
+        <div class="page active" id="page1">
+            <h1>🎮 Typing Game</h1>
+            <h2>Add Your Words</h2>
+            
+            <input type="text" id="wordInput" placeholder="Enter a word...">
+            <br>
+            <button onclick="addWord()">Add Word</button>
+            <br>
+            <button onclick="startGame()">Start Game</button>
+             
+            <div class="word-list" id="addedWords">
+                <p>No words added yet</p>
+            </div>
+        </div>
+
+        <!-- Page 2: Typing Game -->
+        <div class="page" id="page2">
+            <h1>🎯 Type the Words</h1>
+           
+            <div class="word-list" id="gameWordList"></div>
+            
+            <div class="typing-area">
+                <input type="text" id="typeInput" placeholder="Type a word here...">
+                <div class="error-message" id="errorMessage">This word is not on the list! Try again.</div>
+                <br>
+                <button onclick="enterWord()">Enter</button>
+                <button onclick="clearInput()">Clear</button>
+            </div>
+            
+            <button class="back-btn" onclick="goBack()">Back to Setup</button>
+        </div>
+    </div>
+
+    <script>
+        let wordList = [];
+        let typedWords = new Set();
+
+        function addWord() {
+            const input = document.getElementById('wordInput');
+            const word = input.value.trim().toLowerCase();
+            
+            if (word && !wordList.includes(word)) {
+                wordList.push(word);
+                input.value = '';
+                updateAddedWordsList();
+            }
+        }
+
+        function updateAddedWordsList() {
+            const container = document.getElementById('addedWords');
+            
+            if (wordList.length === 0) {
+                container.innerHTML = '<p>No words added yet</p>';
+            } else {
+                container.innerHTML = wordList.map(word => 
+                    `<div class="word-item">
+                        <span class="word-text">${word}</span>
+                    </div>`
+                ).join('');
+            }
+        }
+
+        function startGame() {
+            if (wordList.length === 0) {
+                alert('Please add at least one word before starting!');
+                return;
+            }
+            
+            document.getElementById('page1').classList.remove('active');
+            document.getElementById('page2').classList.add('active');
+            updateGameWordList();
+            document.getElementById('typeInput').focus();
+        }
+
+        function updateGameWordList() {
+            const container = document.getElementById('gameWordList');
+            
+            container.innerHTML = wordList.map(word => 
+                `<div class="word-item" id="word-${word}">
+                    <span class="word-text">${word}</span>
+                    <span class="check-mark" id="check-${word}" style="display: none;">✓</span>
+                </div>`
+            ).join('');
+        }
+
+        function enterWord() {
+            const input = document.getElementById('typeInput');
+            const errorMessage = document.getElementById('errorMessage');
+            const typedWord = input.value.trim().toLowerCase();
+            
+            if (typedWord === '') {
+                return;
+            }
+            
+            if (wordList.includes(typedWord)) {
+                const checkMark = document.getElementById(`check-${typedWord}`);
+                if (checkMark) {
+                    checkMark.style.display = 'inline';
+                    typedWords.add(typedWord);
+                }
+                errorMessage.style.display = 'none';
+            } else {
+                // Show error message for wrong spelling
+                errorMessage.style.display = 'block';
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 2000); // Hide after 2 seconds
+            }
+            
+            input.value = '';
+            input.focus();
+        }
+
+        function clearInput() {
+            document.getElementById('typeInput').value = '';
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('typeInput').focus();
+        }
+
+        function goBack() {
+            document.getElementById('page2').classList.remove('active');
+            document.getElementById('page1').classList.add('active');
+            
+            // Reset typed words
+            typedWords.clear();
+        }
+
+        // Allow Enter key to add words on page 1
+        document.getElementById('wordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addWord();
+            }
+        });
+
+        // Allow Enter key to submit typed words on page 2
+        document.getElementById('typeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                enterWord();
+            }
+        });
+    </script>
+</body>
+</html>
