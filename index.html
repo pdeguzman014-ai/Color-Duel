@@ -1,335 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typing Keyboard Game</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .container {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            min-width: 450px;
-            text-align: center;
-        }
-
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: bold;
-        }
-
-        h2 {
-            color: #34495e;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-            font-weight: 600;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e8f4fd;
-            border-radius: 12px;
-            font-size: 16px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            background: #f8fcff;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #4facfe;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
-        }
-
-        button {
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
-        }
-
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
-        }
-
-        button:active {
-            transform: translateY(-1px);
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        .word-list {
-            background: linear-gradient(135deg, #f8fcff 0%, #e8f4fd 100%);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px 0;
-            max-height: 220px;
-            overflow-y: auto;
-            border: 1px solid #e1f5fe;
-        }
-
-        .word-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            margin: 8px 0;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            border-left: 4px solid #4facfe;
-            transition: all 0.2s ease;
-        }
-
-        .word-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
-        }
-
-        .word-text {
-            font-size: 16px;
-            color: #2c3e50;
-            font-weight: 500;
-        }
-
-        .check-mark {
-            color: #27ae60;
-            font-size: 22px;
-            font-weight: bold;
-            text-shadow: 0 2px 4px rgba(39, 174, 96, 0.3);
-        }
-
-        .error-message {
-            color: #e74c3c;
-            font-size: 14px;
-            margin-top: 10px;
-            padding: 12px;
-            background: #fdf2f2;
-            border: 1px solid #fadbd8;
-            border-radius: 8px;
-            display: none;
-            font-weight: 500;
-        }
-
-        .back-btn {
-            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(149, 165, 166, 0.3);
-        }
-
-        .back-btn:hover {
-            box-shadow: 0 8px 25px rgba(149, 165, 166, 0.4);
-        }
-
-        .typing-area {
-            margin: 25px 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #f8fcff 0%, #ffffff 100%);
-            border-radius: 15px;
-            border: 1px solid #e1f5fe;
-        }
-
-        /* Custom scrollbar */
-        .word-list::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .word-list::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        .word-list::-webkit-scrollbar-thumb {
-            background: #4facfe;
-            border-radius: 10px;
-        }
-
-        .word-list::-webkit-scrollbar-thumb:hover {
-            background: #00f2fe;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Grid Collector</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #222;
+      color: #fff;
+    }
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(10, 40px);
+      grid-template-rows: repeat(10, 40px);
+      gap: 2px;
+      margin: 30px auto;
+      width: fit-content;
+    }
+    .cell {
+      width: 40px;
+      height: 40px;
+      background: #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .p1 { background-color: red; }
+    .p2 { background-color: blue; }
+    .coin { background-color: gold; }
+    .coin::after { content: '💰'; }
+    .collected { background-color: #666; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Page 1: Add Words -->
-        <div class="page active" id="page1">
-            <h1>🎮 Typing Game</h1>
-            <h2>Add Your Words</h2>
-            
-            <input type="text" id="wordInput" placeholder="Enter a word...">
-            <br>
-            <button onclick="addWord()">Add Word</button>
-            <br>
-            <button onclick="startGame()">Start Game</button>
-             
-            <div class="word-list" id="addedWords">
-                <p>No words added yet</p>
-            </div>
-        </div>
-
-        <!-- Page 2: Typing Game -->
-        <div class="page" id="page2">
-            <h1>🎯 Type the Words</h1>
-           
-            <div class="word-list" id="gameWordList"></div>
-            
-            <div class="typing-area">
-                <input type="text" id="typeInput" placeholder="Type a word here...">
-                <div class="error-message" id="errorMessage">This word is not on the list! Try again.</div>
-                <br>
-                <button onclick="enterWord()">Enter</button>
-                <button onclick="clearInput()">Clear</button>
-            </div>
-            
-            <button class="back-btn" onclick="goBack()">Back to Setup</button>
-        </div>
-    </div>
-
-    <script>
-        let wordList = [];
-        let typedWords = new Set();
-
-        function addWord() {
-            const input = document.getElementById('wordInput');
-            const word = input.value.trim().toLowerCase();
-            
-            if (word && !wordList.includes(word)) {
-                wordList.push(word);
-                input.value = '';
-                updateAddedWordsList();
-            }
-        }
-
-        function updateAddedWordsList() {
-            const container = document.getElementById('addedWords');
-            
-            if (wordList.length === 0) {
-                container.innerHTML = '<p>No words added yet</p>';
-            } else {
-                container.innerHTML = wordList.map(word => 
-                    `<div class="word-item">
-                        <span class="word-text">${word}</span>
-                    </div>`
-                ).join('');
-            }
-        }
-
-        function startGame() {
-            if (wordList.length === 0) {
-                alert('Please add at least one word before starting!');
-                return;
-            }
-            
-            document.getElementById('page1').classList.remove('active');
-            document.getElementById('page2').classList.add('active');
-            updateGameWordList();
-            document.getElementById('typeInput').focus();
-        }
-
-        function updateGameWordList() {
-            const container = document.getElementById('gameWordList');
-            
-            container.innerHTML = wordList.map(word => 
-                `<div class="word-item" id="word-${word}">
-                    <span class="word-text">${word}</span>
-                    <span class="check-mark" id="check-${word}" style="display: none;">✓</span>
-                </div>`
-            ).join('');
-        }
-
-        function enterWord() {
-            const input = document.getElementById('typeInput');
-            const errorMessage = document.getElementById('errorMessage');
-            const typedWord = input.value.trim().toLowerCase();
-            
-            if (typedWord === '') {
-                return;
-            }
-            
-            if (wordList.includes(typedWord)) {
-                const checkMark = document.getElementById(`check-${typedWord}`);
-                if (checkMark) {
-                    checkMark.style.display = 'inline';
-                    typedWords.add(typedWord);
-                }
-                errorMessage.style.display = 'none';
-            } else {
-                // Show error message for wrong spelling
-                errorMessage.style.display = 'block';
-                setTimeout(() => {
-                    errorMessage.style.display = 'none';
-                }, 2000); // Hide after 2 seconds
-            }
-            
-            input.value = '';
-            input.focus();
-        }
-
-        function clearInput() {
-            document.getElementById('typeInput').value = '';
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('typeInput').focus();
-        }
-
-        function goBack() {
-            document.getElementById('page2').classList.remove('active');
-            document.getElementById('page1').classList.add('active');
-            
-            // Reset typed words
-            typedWords.clear();
-        }
-
-        // Allow Enter key to add words on page 1
-        document.getElementById('wordInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                addWord();
-            }
-        });
-
-        // Allow Enter key to submit typed words on page 2
-        document.getElementById('typeInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                enterWord();
-            }
-        });
-    </script>
+<h1>💰 Grid Collector</h1>
+<p>Player 1: W A S D | Player 2: Arrow Keys</p>
+<p>First to collect 5 coins wins!</p>
+<div style="display: flex; justify-content: center; gap: 40px; margin: 20px;">
+  <p>Player 1 Score: <span id="score1">0</span></p>
+  <p>Player 2 Score: <span id="score2">0</span></p>
+</div>
+<div id="grid"></div>
+<p id="winner" style="font-size: 24px; margin-top: 20px;"></p>
+<button id="playAgain" style="display: none; padding: 10px 20px; font-size: 18px; margin-top: 10px;">Play Again</button>
+<script>
+  const gridSize = 10;
+  const grid = document.getElementById('grid');
+  const score1Display = document.getElementById('score1');
+  const score2Display = document.getElementById('score2');
+  const winnerDisplay = document.getElementById('winner');
+  const playAgainBtn = document.getElementById('playAgain');
+  
+  const state = {
+    p1: { x: 0, y: 0, score: 0 },
+    p2: { x: 9, y: 9, score: 0 },
+    coins: new Set(),
+    playing: true,
+    winScore: 5
+  };
+  
+  // Create grid
+  for (let i = 0; i < gridSize * gridSize; i++) {
+    const div = document.createElement('div');
+    div.className = 'cell';
+    div.dataset.index = i;
+    grid.appendChild(div);
+  }
+  
+  function spawnCoins() {
+    state.coins.clear();
+    // Spawn 8 random coins
+    while (state.coins.size < 8) {
+      const x = Math.floor(Math.random() * gridSize);
+      const y = Math.floor(Math.random() * gridSize);
+      const pos = `${x},${y}`;
+      // Don't spawn on players
+      if ((x !== state.p1.x || y !== state.p1.y) && 
+          (x !== state.p2.x || y !== state.p2.y)) {
+        state.coins.add(pos);
+      }
+    }
+  }
+  
+  function drawGrid() {
+    document.querySelectorAll('.cell').forEach(cell => {
+      cell.className = 'cell';
+    });
+    
+    // Draw coins
+    state.coins.forEach(coinPos => {
+      const [x, y] = coinPos.split(',').map(Number);
+      const idx = y * gridSize + x;
+      document.querySelector(`.cell[data-index="${idx}"]`).classList.add('coin');
+    });
+    
+    // Draw players
+    const idx1 = state.p1.y * gridSize + state.p1.x;
+    const idx2 = state.p2.y * gridSize + state.p2.x;
+    document.querySelector(`.cell[data-index="${idx1}"]`).classList.add('p1');
+    document.querySelector(`.cell[data-index="${idx2}"]`).classList.add('p2');
+    
+    // Update scores
+    score1Display.textContent = state.p1.score;
+    score2Display.textContent = state.p2.score;
+  }
+  
+  function checkCoin(player) {
+    const p = state[player];
+    const pos = `${p.x},${p.y}`;
+    if (state.coins.has(pos)) {
+      state.coins.delete(pos);
+      p.score++;
+      
+      // Check win
+      if (p.score >= state.winScore) {
+        winnerDisplay.textContent = `🎉 ${player.toUpperCase()} wins with ${p.score} coins!`;
+        state.playing = false;
+        playAgainBtn.style.display = 'inline-block';
+        return;
+      }
+      
+      // Spawn new coin if needed
+      if (state.coins.size < 3) {
+        setTimeout(spawnCoins, 500);
+      }
+    }
+  }
+  
+  function movePlayer(player, dx, dy) {
+    if (!state.playing) return;
+    const p = state[player];
+    const newX = Math.max(0, Math.min(gridSize - 1, p.x + dx));
+    const newY = Math.max(0, Math.min(gridSize - 1, p.y + dy));
+    
+    // Only move if it's a valid move
+    if (newX !== p.x || newY !== p.y) {
+      p.x = newX;
+      p.y = newY;
+      checkCoin(player);
+      drawGrid();
+    }
+  }
+  
+  // Controls - Real-time movement
+  const keys = {};
+  document.addEventListener('keydown', e => {
+    keys[e.key.toLowerCase()] = true;
+    keys[e.key] = true;
+  });
+  
+  document.addEventListener('keyup', e => {
+    keys[e.key.toLowerCase()] = false;
+    keys[e.key] = false;
+  });
+  
+  // Game loop for smooth movement
+  function gameLoop() {
+    if (!state.playing) return;
+    
+    // Player 1 controls
+    if (keys['w']) movePlayer('p1', 0, -1);
+    if (keys['s']) movePlayer('p1', 0, 1);
+    if (keys['a']) movePlayer('p1', -1, 0);
+    if (keys['d']) movePlayer('p1', 1, 0);
+    
+    // Player 2 controls
+    if (keys['ArrowUp']) movePlayer('p2', 0, -1);
+    if (keys['ArrowDown']) movePlayer('p2', 0, 1);
+    if (keys['ArrowLeft']) movePlayer('p2', -1, 0);
+    if (keys['ArrowRight']) movePlayer('p2', 1, 0);
+    
+    requestAnimationFrame(gameLoop);
+  }
+  
+  spawnCoins();
+  drawGrid();
+  
+  // Add movement delay
+  let lastMove = 0;
+  const originalMovePlayer = movePlayer;
+  movePlayer = function(player, dx, dy) {
+    const now = Date.now();
+    if (now - lastMove > 150) { // 150ms delay between moves
+      originalMovePlayer(player, dx, dy);
+      lastMove = now;
+    }
+  };
+  
+  gameLoop();
+  
+  // Play Again functionality
+  playAgainBtn.addEventListener('click', () => {
+    // Reset game state
+    state.p1 = { x: 0, y: 0, score: 0 };
+    state.p2 = { x: 9, y: 9, score: 0 };
+    state.coins = new Set();
+    state.playing = true;
+    
+    // Hide winner message and play again button
+    winnerDisplay.textContent = '';
+    playAgainBtn.style.display = 'none';
+    
+    // Restart game
+    spawnCoins();
+    drawGrid();
+    gameLoop();
+  });
+</script>
 </body>
 </html>
